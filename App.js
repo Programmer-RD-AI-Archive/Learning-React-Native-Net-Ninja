@@ -1,28 +1,27 @@
-import React, { useState } from "react";
-import { StyleSheet, View, FlatList, Text } from "react-native";
+import React, { useState } from 'react';
+import Home from './screens/home';
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
+
+const getFonts = () => Font.loadAsync({
+  'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
+  'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),
+});
 
 export default function App() {
-  const [todos, setTodos] = useState([
-    { text: "buy coffee", key: "1" },
-    { text: "create an app", key: "2" },
-    { text: "play on the switch", key: "3" },
-  ]);
-  return (
-    <View style={styles.container}>
-      {/* header */}
-      <View style={styles.content}>
-        {/* todo form */}
-        <View style={styles.list}>
-          <FlatList data={todos} />
-        </View>
-      </View>
-    </View>
-  );
-}
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});
+  if (fontsLoaded) {
+    return (
+      <Home />
+    );
+  } else {
+    return (
+      <AppLoading 
+        startAsync={getFonts} 
+        onFinish={() => setFontsLoaded(true)} 
+      />
+    )
+  }
+
+}
